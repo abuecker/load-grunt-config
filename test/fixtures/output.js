@@ -1,5 +1,6 @@
 module.exports = {
   aliases: {
+    delta: 'watch',
     default: [
       'test'
     ]

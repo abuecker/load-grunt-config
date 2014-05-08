@@ -13,6 +13,7 @@ var defaults = {
 };
 
 module.exports = function(grunt, options) {
+  var alias;
 
   options = options || {};
   if (options.config) {
@@ -42,9 +43,13 @@ module.exports = function(grunt, options) {
 
   if (config.aliases) {
     for (var taskName in config.aliases) {
-      grunt.registerTask(taskName, config.aliases[taskName]);
+      alias = config.aliases[taskName];
+      if (_.isArray(alias)) {
+        grunt.registerTask(taskName, alias);
+      } else if (_.isString(alias)) {
+        grunt.renameTask(alias, taskName);
+      }
     }
-
   }
 
   return config;
