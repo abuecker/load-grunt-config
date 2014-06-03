@@ -13,7 +13,8 @@ suite('index', function() {
   //fake grunt
   var grunt = {
     initConfig: sinon.stub(),
-    registerTask: sinon.stub()
+    registerTask: sinon.stub(),
+    renameTask: sinon.stub()
   };
 
   var fixture = require('./fixtures/output');
@@ -42,6 +43,7 @@ suite('index', function() {
     loadGruntConfig = original;
     grunt.initConfig.reset();
     grunt.registerTask.reset();
+    grunt.renameTask.reset();
     gruntConfigSpy.reset();
     loadGruntTasksSpy.reset();
     done();
@@ -181,6 +183,16 @@ suite('index', function() {
       var args = grunt.registerTask.args[0];
       assert.equal(args[0], 'default');
       assert.deepEqual(args[1], ['test']);
+    });
+
+    test('should renameTask for each alias string', function() {
+      loadGruntConfig(grunt, {
+        configPath: 'test/config'
+      });
+      assert.equal(grunt.renameTask.callCount, 1);
+      var args = grunt.renameTask.args[0];
+      assert.equal(args[0], 'watch');
+      assert.equal(args[1], 'delta');
     });
   });
 

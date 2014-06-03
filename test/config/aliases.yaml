@@ -1,2 +1,4 @@
+delta: 'watch'
+
 default:
   - 'test'
